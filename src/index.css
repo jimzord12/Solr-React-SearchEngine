@@ -1,0 +1,204 @@
+:root {
+  --line-thickness: 0.25em;
+  --glass-size: 65%;
+  --icon-height: 7rem;
+  --transition-speed: 0.35s;
+  --timing-function: cubic-bezier(0.66, 1.51, 0.77, 1.13);
+  --icon-color: white;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: linear-gradient(90deg, #020024 0%, #090979 35%, #00d4ff 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: -webkit-pictograph;
+}
+.title {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: 190px;
+  margin-bottom: 40px;
+}
+.title h1 {
+  color: var(--icon-color);
+  font-size: 50px;
+}
+.search-icon {
+  box-sizing: border-box;
+  width: var(--icon-height);
+  height: var(--icon-height);
+  max-width: 20em;
+  transition: all var(--transition-speed) linear,
+    border-color 0s linear var(--transition-speed);
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  border: solid var(--line-thickness);
+  border-color: rgba(255, 255, 255, 0);
+  border-radius: 100px;
+  padding: 0.25em;
+}
+.search-icon__wrapper {
+  width: var(--icon-height);
+  height: var(--icon-height);
+  position: absolute;
+  border-radius: 100px;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto 0;
+  transform: rotate(-45deg);
+  transition: all 0 linear;
+}
+.search-icon__wrapper:hover {
+  cursor: pointer;
+}
+.search-icon__input {
+  background: none;
+  text-align: center;
+  outline: none;
+  display: block;
+  border: none;
+  background: rgba(255, 255, 255, 0);
+  width: calc(100% - (var(--icon-height) / 2 + 1rem));
+  margin-right: 6rem;
+  margin-top: 30px;
+  height: 100%;
+  border-radius: 100px;
+  transition: all var(--transition-speed) linear;
+  font-size: 2em;
+  padding: 0 0.5em;
+  color: var(--icon-color);
+}
+.search-icon__input::placeholder {
+  color: rgba(255, 255, 255, 0.75);
+}
+.search-icon__glass {
+  width: var(--glass-size);
+  height: var(--glass-size);
+  border: solid var(--line-thickness);
+  border-color: var(--icon-color);
+  border-radius: 100px;
+  margin: 0 auto;
+  position: relative;
+  transition: all var(--transition-speed) var(--timing-function)
+      var(--transition-speed),
+    border-color 0s linear var(--transition-speed);
+}
+.search-icon__handle {
+  height: calc(100% - var(--glass-size));
+  width: var(--line-thickness);
+  margin: 0 auto;
+  background: var(--icon-color);
+  position: absolute;
+  border-radius: 0 0 100px 100px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: all var(--transition-speed) var(--timing-function);
+  transition-delay: var(--transition-speed);
+}
+.search-icon__handle::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--icon-color);
+  transform: rotate(0deg);
+  transition: all var(--transition-speed) var(--timing-function);
+  transition-delay: 0s;
+}
+.search-icon.open {
+  width: calc(100vw - 1em);
+  border-color: var(--icon-color);
+  transition-delay: var(--transition-speed);
+}
+.search-icon.open .search-icon__input {
+  transition-delay: var(--transition-speed);
+}
+.search-icon.open .search-icon__glass {
+  width: 100%;
+  height: 100%;
+  transition: all var(--transition-speed) var(--timing-function) 0s,
+    border-color 0s linear var(--transition-speed);
+  border-color: rgba(0, 0, 0, 0);
+}
+.search-icon.open .search-icon__handle {
+  bottom: calc(50% - (100% - var(--glass-size)) / 2);
+  border-radius: 100px;
+  transition-delay: 0s;
+}
+.search-icon.open .search-icon__handle::after {
+  transition-delay: var(--transition-speed);
+  transform: rotate(90deg);
+}
+.search-result {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: 30px;
+  /* margin-bottom: 50px; */
+  font-size: 20px;
+  color: var(--icon-color);
+}
+.results {
+  max-width: 768px;
+  margin: auto;
+  margin-top: 40px;
+}
+.result {
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: var(--icon-color);
+  border-radius: 16px;
+  white-space: pre; /* This line saved me!!! */
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  -o-border-radius: 16px;
+}
+.result h3 {
+  color: #090979;
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+.result p {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+.result p .searchmatch {
+  font-weight: 700;
+  color: #020024;
+}
+.result a {
+  display: inline-block;
+  padding: 12px 16px;
+  background-color: #020024;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 16px;
+  -webkit-border-radius: 16px;
+  -moz-border-radius: 16px;
+  -ms-border-radius: 16px;
+  -o-border-radius: 16px;
+  transition: 0.4s;
+  -webkit-transition: 0.4s;
+  -moz-transition: 0.4s;
+  -ms-transition: 0.4s;
+  -o-transition: 0.4s;
+}
+.result a:hover {
+  background-color: #090979;
+}
