@@ -44,10 +44,10 @@ function App() {
     if (search === "") return;
     try {
       let queryRsult = await requestQuerySolr(50); // <-- Arg = Number Of Rows to fetch
-      console.log(queryRsult.data.response.docs); // <-- This is of type "Array"
-      const dataArray = queryRsult.data.response.docs; // <-- This is of type "Object"
+      console.log(queryRsult.data.response.docs);
+      const dataArray = queryRsult.data.response.docs; // <-- This is of type "Array"
       setResults(dataArray); // <-- This is a React hook that handles "State"
-      // "State" is just a variable that can dynamically change from User Inputs
+      // "State" is just a variable that can dynamically change from User Inputs and/or Code
     } catch (err) {
       console.error(
         `😅 It seems that something went wrong when App.js was trying to request a query from Solr server through the solrConnector.js
@@ -104,8 +104,8 @@ function App() {
 
               {/* 
               ######################################
-                React can not render objects, that 
-                way I created the "fromObjToArr()"
+                React can not render objects, thats 
+                why I created the "fromObjToArr()" function
               ######################################
               */}
               {fromObjToArr(result)}
