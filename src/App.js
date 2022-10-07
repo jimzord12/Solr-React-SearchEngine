@@ -5,7 +5,7 @@ function App() {
   const [showSearch, setSearchShow] = useState(true); //set to false
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
-  const [searchInfo, setSearchInfo] = useState({});
+  // const [searchInfo, setSearchInfo] = useState({});
   const toggleSearch = () => {
     setSearchShow(!showSearch);
   };
@@ -16,18 +16,34 @@ function App() {
 
   const fromObjToArr = (obj) => {
     let tempArray = [];
-    let tempString = "";
     for (const property in obj) {
       tempArray.push(`${property}: ${obj[property]}`);
     }
+    console.log(tempArray);
     return tempArray.join("\r\n");
+  };
+
+  const getImgString = function (element) {
+    const imgIndex = element.search("img"); // It's the same as indexOf()
+    const imgJPG = element.search(".jpg");
+    const imgPNG = element.search(".png");
+
+    // String.prototype.search() returns -1 if it doesn't find a match
+    if (imgIndex > 0) {
+      return imgJPG > 0
+        ? element.substring(imgIndex + 5, imgJPG + 5)
+        : element.substring(imgIndex + 5, imgPNG + 5);
+      // imgJPG > 0
+      //   ? console.log(element.substring(imgIndex + 5, imgJPG))
+      //   : console.log(element.substring(imgIndex + 5, imgPNG));
+    } else console.log(`This element: ${element.slice(0, 10)} has no Image`);
   };
 
   const handleSearch = async (e) => {
     e.preventDefault();
     if (search === "") return;
     try {
-      let queryRsult = await requestQuerySolr(); // <-- This is of type "Object"
+      let queryRsult = await requestQuerySolr(50); // <-- Arg = Number Of Rows to fetch
       console.log(queryRsult.data.response.docs); // <-- This is of type "Array"
       const dataArray = queryRsult.data.response.docs; // <-- This is of type "Object"
       setResults(dataArray); // <-- This is a React hook that handles "State"
@@ -72,7 +88,7 @@ function App() {
       <div className="results">
         {/* The map() is a Array method, and is used to manipulate an Array and also */}
         {/* returns a new array. It does Not mutate that original array */}
-        {results.map((result, indx) => {
+        {results.map((result, indx, arr) => {
           // const url = `https://en.wikipedia.org/?curid=${result.pageid}`;
           return (
             // ######################################
@@ -94,10 +110,12 @@ function App() {
               */}
               {fromObjToArr(result)}
               {/* ### Below is an example, ofc it needs to be styled from the css file ### */}
-              <img
-                src="https://media.istockphoto.com/photos/information-blocks-concept-picture-id1341880384?b=1&k=20&m=1341880384&s=170667a&w=0&h=CucdKx4GTj3XBBV3DHgij5Y_vy1e2qsu_B_FPrBccn0="
-                alt="the Item's Img"
-              />
+              <div>
+                <img
+                  src={getImgString(fromObjToArr(result))}
+                  alt="the Item's Img"
+                />
+              </div>
             </div>
           );
         })}

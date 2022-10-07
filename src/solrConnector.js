@@ -23,10 +23,6 @@ client.autoCommit = true;
 }
 */
 const addDataSolr = async function (data) {
-  let query = await client.query().q({}).addParams({
-    wt: "json",
-    indent: true,
-  });
   try {
     // Update/Add documentData to Solr server
     client.update(data, function (err, result) {
@@ -47,12 +43,15 @@ const addDataSolr = async function (data) {
   }
 };
 
-const requestQuerySolr = async function () {
-  let query = await client.query().q({}).addParams({
-    wt: "json",
-    indent: true,
-  });
-  // .rows(6);
+const requestQuerySolr = async function (rowsNumber) {
+  let query = client
+    .query()
+    .q({})
+    .addParams({
+      wt: "json",
+      indent: true,
+    })
+    .rows(rowsNumber);
   try {
     let data = await client.search(query);
     let result = {
